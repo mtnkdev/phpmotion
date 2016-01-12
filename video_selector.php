@@ -13,7 +13,7 @@ $selector_video_id = mysql_real_escape_string($_GET['vid']);
 
 if ($selector_video_id == ""){ //if no video is set
 
-	$video_play = "default.flv";
+	$video_play = "default.mp4";
 
 }else{
 $selector_sql = "SELECT * FROM videos WHERE indexer = $selector_video_id AND approved ='yes'";

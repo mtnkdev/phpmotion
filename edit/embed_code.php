@@ -42,7 +42,7 @@ if ( $form_submitted == 'yes' ) {
 	$row			= @mysql_fetch_array($result);
 
 	$public_private	= $row['public_private'];
-	$video_play		= $row['video_id'] . '.flv';
+	$video_play		= $row['video_id'] . '.mp4';
   	$thumb_file		= $base_url . '/uploads/player_thumbs/' . $row['video_id'] . '.jpg';
   	$click_link		= $base_url . '/videos/' . $row['indexer'] . '/' . $row['title_seo'];
 

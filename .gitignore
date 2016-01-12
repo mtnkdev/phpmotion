@@ -4,4 +4,5 @@ classes/settings.php
 *.flv
 uploads/player_thumbs/*.jpg
 uploads/thumbs/*.jpg
+logs/*.txt
 
