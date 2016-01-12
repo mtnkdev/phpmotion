@@ -81,19 +81,11 @@ while($result = @mysql_fetch_array($query)) {
       $output = array('0'=>"\n"."Converting ($raw_video) started - $convert_date"."\n");
       capture_output($output);
 
-        $source_attributes = _get_video_attributes($raw_video_path, $config[path_to_ffmpeg]);
-
 	//________________Set converting params for video type_______________________
-        $ffmpeg_convert_opts        = "-y -i $raw_video_path -vcodec libx264 -vpre medium -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax";
-        # if we are resizing it too, add those arguments on
-        if ($resize == 'yes') {
-	    $ffmpeg_convert_opts = "$ffmpeg_convert_opts -s $ffmpeg_size";
-
-            # we don;t want to increase the size as it makes the quality worse
-            #if ($source_attributes['width'] >  $ffmpeg_size) {
-            #   $new_width=($ffmpeg_size*$source_attributes['height'])/$source_attributes['width'];
-	    #   $ffmpeg_convert_opts = "$ffmpeg_convert_opts -s $ffmpeg_size:$new_width";
-            #}
+        $ffmpeg_convert_opts        = "-y -i $raw_video_path -vcodec libx264 -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax";
+        $ffmpeg_convert_opts        = "-y -i $raw_video_path -vcodec libx264 ";
+        if ($resize=='yes') {
+               $ffmpeg_convert_opts        = "$ffmpeg_convert_opts -vf scale=\"$ffmpeg_size:trunc(ow/a/2)*2\" ";
         }
 
     	switch($extension) {
@@ -117,65 +109,7 @@ while($result = @mysql_fetch_array($query)) {
     	//___CHECK IF VIDEO IS FLV______________________________________________
 
 	if($flv) {
-
-		// we need to test flv codec here as FFMPEG / FLVTOOL2 will not decode default server setups h264 or On2-VP6 Video codec
-        	$flv_codec_check = "$config[path_to_flvtool2] -UP $raw_video_path | grep duration";
-        	@exec("$flv_codec_check 2>&1",$output_flvtool);
-
-        	// if there is no duration returned, uploaded flv codec is h264 or On2-VP-6 or a bad flv \\??//
-        	if(sizeof($output_flvtool) == 0) {
-
-            	//try ffmpeg test to determine if server is h264 / on2-vp6 ready
-            	$ffmpeg_codec_check = "$config[path_to_ffmpeg] -i $raw_video_path";
-            	@exec("$ffmpeg_codec_check 2>&1",$output_ffmpeg);
-
-            	foreach($output_ffmpeg as $outputline)
-                		$debug_ff = $debug_ff.$outputline."\n";
-
-                		if(@preg_match('/Unsupported video codec/',$debug_ff,$regs)) {
-                			$ffmpeg_codec_error = 'FFMPEG is not setup to decode h264 videos on this server';
-                			$cmd = "$config[path_to_mencoder] $raw_video_path -o $new_flv -of lavf -oac mp3lame -lameopts abr:br=56 -ovc lavc -lavcopts vcodec=flv:vbitrate=1000:mbd=2:mv0:trell:v4mv:cbp:last_pred=3 -lavfopts i_certify_that_my_video_stream_does_not_use_b_frames";
-                			@exec("$cmd 2>&1",$output_mencoder);
-                			$cmd_1 = $cmd;
-                			$log_1 = $output_mencoder;
-                			capture_output($output_mencoder,$cmd);
-
-                			// if mencoder conversion fails try without b-frames
-                			if(!file_exists($new_flv)) {
-                    			$cmd = "$config[path_to_mencoder] $raw_video_path -o $new_flv -of lavf -oac mp3lame -lameopts abr:br=56 -ovc lavc -lavcopts vcodec=flv:vbitrate=800:mbd=2:mv0:trell:v4mv:cbp:last_pred=3 -vf scale=560:420 -srate 22050";
-                    			$output = '';
-                    			@exec("$cmd 2>&1",$output);
-                    			$cmd_2 = $cmd;
-                    			$log_2 = $output;
-                    			capture_output($output,$cmd);
-					}
-
-				} else {
-					// ffmpeg check passes so we convert using ffmpeg
-                			if($resize == 'yes') {
-                    			$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -s $ffmpeg_size -qmax $qmax $new_flv";
-                			} else {
-                    			$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax $new_flv";
-                			}
-
-                			$output = '';
-                			@exec("$cmd 2>&1",$output);
-                			$cmd_3 = $cmd;
-                			$log_3 = $output;
-                			capture_output($output,$cmd);
-                		}
-
-            } else {
-            	//we have a duration so we just copy flv
-            	@copy($raw_video_path,$new_flv);
-		}
-
-        	//___Conversion failed check___________________
-        	if(!file_exists($new_flv) || filesize($new_flv) < 10000 || filesize($new_flv) == 0) {
-            	@unlink($new_flv);
-            	die_with_msg("Failed to convert video");
-        	}
-
+                print_r("Got an flv");
 	// con't if not an flv
 	} else {
 
@@ -192,17 +126,6 @@ while($result = @mysql_fetch_array($query)) {
         	$log_1 = $output;
         	capture_output($output,$cmd);
 
-
-        	if((!file_exists($new_flv) || filesize($new_flv)  < 10000) && $default_type) {
-        		$output = '';
-            	@exec("$cmd2 2>&1",$output);
-        		$cmd_2 = $cmd2;
-        		$log_2 = $output;
-
-        		$cmd3 = "Running encoder again, optional command \n\n" . $cmd2;
-
-            	capture_output($output,$cmd3);
-        	}
 
         	//___Conversion failed totally___________________
         	if(!file_exists($new_flv) || filesize($new_flv) < 10000) {
