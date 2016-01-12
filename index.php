@@ -381,7 +381,7 @@ if ( $random_video == 'yes' ) {
 	$sql			= "SELECT video_id FROM videos WHERE approved = 'yes' AND public_private = 'public' ORDER BY RAND() LIMIT 1";
 	$query		= @mysql_query($sql);
 	$result		= @mysql_fetch_array($query);
-	$video_play		= $result['video_id'].'.flv';
+	$video_play		= $result['video_id'].'.mp4';
 	$video_thumb	= $result['video_id'].'.jpg';
 }
 

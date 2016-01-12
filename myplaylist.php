@@ -48,9 +48,9 @@ while ($result = mysql_fetch_array($query)) {
     	$duration		= $result2['video_length'];
 
     	$external_url 	= $config['site_base_url'].'/videos/'.$vid.'/'.$title_seo;
-    	$source_url 	= $config['site_base_url'].'/uploads/'.$file_name.'.flv';
+    	$source_url 	= $config['site_base_url'].'/uploads/'.$file_name.'.mp4';
     	$thumb_path 	= $base_path.'/uploads/player_thumbs/'.$file_name.'.jpg';
-    	$source_path 	= $base_path.'/uploads/'.$file_name.'.flv';
+    	$source_path 	= $base_path.'/uploads/'.$file_name.'.mp4';
 
     	if(file_exists($thumb_path)) {
 

@@ -52,7 +52,7 @@ while ($result = @mysql_fetch_array($query)) {
 	print "<entry>\n";
 		print "<title>$title</title>\n";
 		print "<abstract>$description</abstract>\n";
-		print "<ref href=\"$base_url/uploads/$vid.flv\" />\n";
+		print "<ref href=\"$base_url/uploads/$vid.mp4\" />\n";
 		print "<param name=\"image\" value=\"$thumb_file\" />\n";
 	print "</entry>\n";
 }
