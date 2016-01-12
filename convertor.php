@@ -1,4 +1,5 @@
 <?php
+
 //Revised Aug 5, 2010
 ///////////////////////////////////////////////////////////////////////////////////////
 // PHPmotion                                                http://www.phpmotion.com //
@@ -44,6 +45,7 @@ $srate               = $config['video_mencoder_srate'];
 $mencoder_audio_rate = $config['video_mencoder_audio_rate'];
 
 
+
 //__________Admins email address for report________________
 $sql			= "SELECT email_address FROM member_profile WHERE user_group = 'admin' LIMIT 1";
 $query 		= mysql_query($sql);
@@ -79,56 +81,37 @@ while($result = @mysql_fetch_array($query)) {
       $output = array('0'=>"\n"."Converting ($raw_video) started - $convert_date"."\n");
       capture_output($output);
 
+        $source_attributes = _get_video_attributes($raw_video_path, $config[path_to_ffmpeg]);
+
 	//________________Set converting params for video type_______________________
+        $ffmpeg_convert_opts        = "-y -i $raw_video_path -vcodec libx264 -vpre medium -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax";
+        # if we are resizing it too, add those arguments on
+        if ($resize == 'yes') {
+	    $ffmpeg_convert_opts = "$ffmpeg_convert_opts -s $ffmpeg_size";
+
+            # we don;t want to increase the size as it makes the quality worse
+            #if ($source_attributes['width'] >  $ffmpeg_size) {
+            #   $new_width=($ffmpeg_size*$source_attributes['height'])/$source_attributes['width'];
+	    #   $ffmpeg_convert_opts = "$ffmpeg_convert_opts -s $ffmpeg_size:$new_width";
+            #}
+        }
 
     	switch($extension) {
 
-    		//wmv videos
-        	case 'wmv':
-            	if($resize == 'yes') {
-            		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -s $ffmpeg_size -qmax $qmax $new_flv";
-            	} else {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax $new_flv";
-            	}
-            break;
-
-        	//avi videos
-        	case 'avi':
-            	if($resize == 'yes') {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -s $ffmpeg_size -qmax $qmax $new_flv";
-            	} else {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax $new_flv";
-            	}
-            break;
-
-        	//mpg videos
-        	case 'mpg':
-            	if($resize == 'yes') {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -s $ffmpeg_size -qmax $qmax $new_flv";
-            	} else {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax $new_flv";
-            	}
-            break;
-
-        	//flv videos
-        	case 'flv':
+            //flv videos
+            case 'flv':
             	$flv = true;
-            break;
+                break;
 
-        	//all other videos
-        	default:
+            //all other videos
+            default:
             	$default_type 	= true;
-
-            	if($resize == 'yes') {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -vcodec libx264 -vpre medium -b $bit_rate -r $frame_rate -nr 1000 -g 500 -s $ffmpeg_size -qmax $qmax $new_flv";
-            	} else {
-                		$cmd = "$config[path_to_ffmpeg] -y -i $raw_video_path -ab 64k -ar $ffmpeg_audio_rate -vcodec libx264 -vpre medium -b $bit_rate -r $frame_rate -nr 1000 -g 500 -qmax $qmax $new_flv";
-            	}
-
+       		$cmd = "$config[path_to_ffmpeg] $ffmpeg_convert_opts $new_flv";
 
             break;
 
 	}// end switch extension check for now
+
 
 	//______________________________________________________________________
     	//___CHECK IF VIDEO IS FLV______________________________________________
@@ -209,13 +192,14 @@ while($result = @mysql_fetch_array($query)) {
         	$log_1 = $output;
         	capture_output($output,$cmd);
 
+
         	if((!file_exists($new_flv) || filesize($new_flv)  < 10000) && $default_type) {
         		$output = '';
             	@exec("$cmd2 2>&1",$output);
         		$cmd_2 = $cmd2;
         		$log_2 = $output;
 
-        		$cmd3 = "Running mencoder again, optional command \n\n" . $cmd2;
+        		$cmd3 = "Running encoder again, optional command \n\n" . $cmd2;
 
             	capture_output($output,$cmd3);
         	}
