@@ -2,4 +2,6 @@ classes/mysql.inc.php
 classes/settings.php
 *.mp4
 *.flv
+uploads/player_thumbs/*.jpg
+uploads/thumbs/*.jpg
 
