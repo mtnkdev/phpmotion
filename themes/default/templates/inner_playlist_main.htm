@@ -1,0 +1,128 @@
+<link href="[var.base_url]/themes/[var.user_theme]/css/main.css" rel="stylesheet" type="text/css" media="all">
+<script type="text/javascript" src="[var.base_url]/javascripts/swfobject.js"></script>
+
+<div id="Playlists">
+  <br />
+  <div style="text-align:center;"><font size="3"><b>My Playlists</b></font></div>
+  <div id="PlaylistNotification" style="text-align:center; color: #EE0000; font-size: 12pt; font-weight:bold;">
+    [var.message_type] - [var.error_message]<!--[onload;block=div;when [var.blk_notification]=1;comm]-->
+  </div>
+
+  <div class="Playlistdivs">
+    <form name="form1" method="post" action="videoplaylist.php">
+      <div>
+        <div style="margin-left:152px; float:left;">
+          [var.lang_new_list_name]:&nbsp;<input name="list_name" type="text" id="list_name" size="30">
+          &nbsp;&nbsp;<input type="submit" name="new_list" value="Create New List">
+        <div>
+      </div>
+      <input type="hidden" name="submitted_new_list" value="yes">
+    </form>
+    <!--[onload;block=div;when [var.show_create_new]=1;comm]-->
+  </div>
+  <br />
+  <br />
+
+
+  <div class="Playlistdivs2">
+    <form name="form2" method="post" action="videoplaylist.php">
+      <div>
+        <div style="margin-left:152px; float:left;">My Playlists:</div>
+        <div style="margin-left:28px; float:left;">
+          <select name="my_playlists" id="my_playlists"><!--[var.pulldown_list;htmlconv=no;comm]--></select>
+        </div>
+        <br />
+        <br />
+        <div style="margin-left:152px; float:left;">
+          Play list:&nbsp;<input type="radio" value="play" checked name="selected_box"><b>&nbsp;|&nbsp;</b>
+          [var.lang_show_list]:&nbsp;<input type="radio" name="selected_box" value="show" /><b>&nbsp;|&nbsp;</b>
+          [var.lang_delete_list]:&nbsp;<input type="radio" name="selected_box" value="delete">
+          <input type="submit" name="playlist_action" value="Submit" id="playlist_action" />
+          <input type="hidden" name="submitted_playlist_action" value="yes" />
+        </div>
+       </div>
+    </form>
+  <!--[onload;block=div;when [var.show_main_list_actions]=1;comm]-->
+  </div>
+  <br />
+</div>
+
+<div style="text-align:left">
+  <table width="100%" border="0" align="left" cellpadding="4" cellspacing="0">
+    <tr>
+      <!--[onload;block=tr;when [var.show_title]=1;comm]-->
+      <td colspan="4" class="font5_14"><span class="font4_14">[var.lang_playlist]:</span> [var.shortened_name]</td>
+    </tr>
+    <tr>
+      <!--[onload;block=tr;when [var.show]=1;comm]-->
+      <td width="84">&nbsp;</td>
+      <td width="180">&nbsp;</td>
+      <td width="67"><div align="center">[var.lang_position]</div></td>
+	<td width="130"><div align="center">[var.lang_delete] ([var.lang_from_list])</div></td>
+    </tr>
+    <tr>
+	<td width="84"><img src="uploads/thumbs/[blk1.video_file_name;block=tr;ope=max:35].jpg" alt="video pic" width="80" height="60" border="0" /></td>
+ 	<td width="180">[blk1.title;block=tr;ope=max:70]</td>
+ 	<td width="67">&nbsp;</td>
+ 	<td width="130"><div align="center"><a href="videoplaylist.php?id=[var.playlists_id]&amp;vid=[blk1.video_id;block=tr]&amp;act=del" onclick="return confirm('[var.confirm_popup_javascript]')"><b>X</b></a></div></td>
+    </tr>
+    <tr>
+      <td width="84"><img src="uploads/thumbs/[blk1.video_file_name;block=tr;ope=max:35].jpg" alt="video pic" width="80" height="60" border="0" /></td>
+      <td width="180">[blk1.title;block=tr;ope=max:70]</td>
+      <td width="67">&nbsp;</td>
+      <td width="130"><div align="center"><a href="videoplaylist.php?id=[var.playlists_id]&amp;vid=[blk1.video_id;block=tr]&amp;act=del" onclick="return confirm('[var.confirm_popup_javascript]')"><b>X</b></a></div></td>
+    </tr>
+    <tr>
+      <!--[onload;block=tr;when [var.show]=2;comm]-->
+      <td colspan="4" class="font5_14"><div align="center"><span class="font4_14">[var.lang_no_videos_added]</span></div></td>
+    </tr>
+  </table>
+  <!--[onload;block=div;when [var.show_main_list_table]=1;comm]-->
+</div>
+<br />
+<br />
+
+<div style="text-align:center">
+  <br />
+  <div class="font4_14">[var.lang_playlist]:&nbsp;[var.shortened_name] - (Videos - [var.count_videos]&nbsp;)<!--[onload;block=div;when [var.show_title]=2;comm]--></div>
+  <br />
+  <br />
+
+  <div id="myAlternativeContent"></div>
+  <script type="text/javascript">
+      	var flashvars = {};
+		var params = {};
+			var attributes = {};
+			flashvars.player_mode = "playlist";
+			flashvars.display_ads = "no";
+			flashvars.playlist = "yes";
+			flashvars.playlist_xml = "[var.base_url]/myplaylist.php?id=[var.playlists_id]";
+			flashvars.logo = "top_right";
+			flashvars.url_logo = "[var.base_url]/images/playerlogos/logo-player.png";
+			flashvars.autoplay = "false";
+			flashvars.color_nav_bar_top = "0x478dc2";
+			flashvars.color_nav_bar_bottom = "0xE7EBEC";
+			flashvars.ads_background_color = "0x00CCFF";
+			flashvars.ads_border_color = "0xCCCCCC";
+			flashvars.scrubber_position_color = "0x6AA1CE";
+			flashvars.scrubber_load_color = "0x888888";
+			flashvars.scrubber_background_color = "0xBBBBBB";
+			flashvars.volume_bar_color = "0xBBBBBB";
+			flashvars.buffering_time = "3";
+			flashvars.aspect_ratio = "maintain";
+			params.allowfullscreen = "true";
+			params.allowscriptaccess = "sameDomain";
+			swfobject.embedSWF("[var.base_url]/player.swf", "myAlternativeContent", "710", "350", "9.0.0", false, flashvars, params, attributes);
+  </script>
+  <!--[onload;block=div;when [var.show_player]=1;comm]-->
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

@@ -1,0 +1,71 @@
+User-agent: panscient.com
+Disallow: /
+
+User-agent: Steeler
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: discobot
+Disallow: /
+
+User-agent: Speedy
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: Spinn3r
+Disallow: /
+
+User-agent: Sosospider
+Disallow: /
+
+User-agent: YoudaoBot
+Disallow: /
+
+User-agent: AugustBot
+Disallow: /
+
+User-agent: SEOkicks-Robot
+Disallow: /
+
+User-agent: AhrefsBot
+disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: Yandex
+Disallow: / 
+
+User-agent: *
+Crawl-delay: 60
+# Directories
+Disallow: /addons/
+Disallow: /cgi-bin/
+Disallow: /changelogs/
+Disallow: /classes/
+Disallow: /css/
+Disallow: /edit/
+Disallow: /email_templates/
+Disallow: /fckeditor/
+Disallow: /images/
+Disallow: /includes/
+Disallow: /javascripts/
+Disallow: /js/
+Disallow: /lang/
+Disallow: /license/
+Disallow: /logs/
+Disallow: /openx/
+Disallow: /pictures/
+Disallow: /siteadmin/
+Disallow: /skins/
+Disallow: /themes/
+Disallow: /uploads/
+Disallow: /memberprofile_ajax.php
+Disallow: /members

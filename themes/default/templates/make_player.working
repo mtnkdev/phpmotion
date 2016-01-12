@@ -1,0 +1,8 @@
+
+<div id="video_player_box">
+<div id="myAlternativeContent">
+<video id="my_video" width="560" height="420" controls poster="[var.base_url]/[var.thumb_file]">
+   <source src="[var.base_url]/uploads/[var.video_play]" type="video/mp4" />
+</video>
+</div>
+<!--end of PHPmotion Player -->
