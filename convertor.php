@@ -171,7 +171,7 @@ while($result = @mysql_fetch_array($query)) {
     	$thumb_position = $ffmpeg_time;
        
         // taking the thumb halfway through is inconsistent, so let's take on from the start (5 seconds in) 
-	$thumb_pos = "00:00:05";
+	$thumb_position = "00:00:05";
 
 	//______________________________________________________________________________________________
     	//_____________________________CREATE THUMBNAIL IMAGE___________________________________________
