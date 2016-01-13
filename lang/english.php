@@ -290,6 +290,7 @@ $lang_file_type_image                	= 'JPG, PNG, GIF image files';
 $lang_latest_themes                       = 'Latest themes from PHPmotionTemplates.com';
 $lang_latest_news                         = 'Latest News';
 $lang_latest_videos                       = 'Latest Videos';
+$lang_latest_video                        = 'Latest Video';
 $lang_language                            = 'Language';
 $lang_leave_comment                 	= 'Leave a Comment';
 $lang_left_ad                             = 'Left ad';

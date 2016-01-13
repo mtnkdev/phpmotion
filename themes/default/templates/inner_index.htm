@@ -1,13 +1,9 @@
 <!--Begin Left Column-->
 <div id="column-left-1">
-  <div class="header-wide">[var.lang_latest_videos]</div>
+  <div class="header-wide">[var.lang_latest_video]</div>
   <!--Video Player Container.  This is where the player embed code goes-->
+<!--
   <div id="index-player-container">
-<div id="myAlternativeContent">
-<a href="http://www.adobe.com/go/getflashplayer">
-<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
-</a>
-</div>
 			<script type="text/javascript">
 			var flashvars = {};
 			var params = {};
@@ -34,46 +30,30 @@
 			swfobject.embedSWF("[var.base_url]/player.swf", "myAlternativeContent", "710", "350", "9.0.0", false, flashvars, params, attributes);
 		</script>
   </div>
+-->
+
+<!--
+  <link href="/video-js.css" rel="stylesheet">
+-->
+
+  <video id="my-video" controls width="710" poster="[var.thumb_file]" src="[var.video_play]"></video>
+  <script src="/video.js"></script>
+  <script src="/videojs-relatedCarousel.js"></script>
+  <link href="/videojs-relatedCarousel.css" rel=stylesheet">
+
+
+<!--
+<script>
+videojs('my-video', {}, function() {
+    var player = this;
+    player.relatedCarousel([ {}
+    ]);
+});
+</script>
+-->
+
   <!--End Video Player Container-->
 
-  <!--Begin Promoted Videos-->
-  <div class="header-wide-2">[var.lang_promoted_videos]</div>
-  <!--Begin Promototed Videos Container-->
-  <div class="container-wide">
-    <div id="promoted-container">
-      <div class="ts-1">
-        <div class="ts-1-1">
-          <div align="center" class="ts-2-1"></div>
-          <div align="center" class="ts-2-2"><a href="videos/[mp.indexer;block=((div))]/[mp.title_seo;htmlconv=no;block=((div))]"><img height="90" alt="thumb" src="uploads/thumbs/[mp.video_id;block=((div))].jpg" width="120" /></a></div>
-          <div align="center" class="ts-2-3"><!--[mp.title;htmlconv=no;block=((div));ope=max:18;maxhtml;comm]--></div>
-          <div align="center" class="ts-2-4">[var.lang_added]:&nbsp;<!--[mp.date_uploaded;block=((div));comm]--></div>
-          <div align="center" class="ts-2-5"></div>
-        </div>
-        <div class="ts-1-2">
-          <div align="center" class="ts-2-1"></div>
-          <div align="center" class="ts-2-2"><a href="videos/[mp.indexer;block=((div))]/[mp.title_seo;htmlconv=no;block=((div))]"><img height="90" alt="thumb" src="uploads/thumbs/[mp.video_id;block=((div))].jpg" width="120" /></a></div>
-          <div align="center" class="ts-2-3"><!--[mp.title;htmlconv=no;block=((div));ope=max:18;maxhtml;comm]--></div>
-          <div align="center" class="ts-2-4">[var.lang_added]:&nbsp;<!--[mp.date_uploaded;block=((div));comm]--></div>
-          <div align="center" class="ts-2-5"></div>
-        </div>
-        <div class="ts-1-3">
-          <div align="center" class="ts-2-1"></div>
-          <div align="center" class="ts-2-2"><a href="videos/[mp.indexer;block=((div))]/[mp.title_seo;htmlconv=no;block=((div))]"><img height="90" alt="thumb" src="uploads/thumbs/[mp.video_id;block=((div))].jpg" width="120" /></a></div>
-          <div align="center" class="ts-2-3"><!--[mp.title;htmlconv=no;block=((div));ope=max:18;maxhtml;comm]--></div>
-          <div align="center" class="ts-2-4">[var.lang_added]:&nbsp;<!--[mp.date_uploaded;block=((div));comm]--></div>
-          <div align="center" class="ts-2-5"></div>
-        </div>
-        <div class="ts-1-4">
-          <div align="center" class="ts-2-1"></div>
-    	    <div align="center" class="ts-2-2"><a href="videos/[mp.indexer;block=((div))]/[mp.title_seo;htmlconv=no;block=((div))]"><img height="90" alt="thumb" src="uploads/thumbs/[mp.video_id;block=((div))].jpg" width="120" /></a></div>
-          <div align="center" class="ts-2-3"><!--[mp.title;htmlconv=no;block=((div));ope=max:18;maxhtml;comm]--></div>
-          <div align="center" class="ts-2-4">[var.lang_added]:&nbsp;<!--[mp.date_uploaded;block=((div));comm]--></div>
-          <div align="center" class="ts-2-5"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--End Promoted Videos Container-->
   <div class="container-wide-footer"></div>
 
   <!--Begin Video Browser. (Featured, Most Views, etc...)-->

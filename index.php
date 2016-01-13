@@ -487,6 +487,21 @@ if (defined('SMF_INSTALLED')) {
 	$show_smf_login_box = ( ( $_SESSION['user_id'] == '' ) ? 1 : 0 );
 }
 
+# get the latest video ID....
+$mostrecent = array();
+$sql = "SELECT indexer, video_id, title, title_seo, date_uploaded FROM videos WHERE approved='yes' AND public_private = 'public' ORDER BY indexer DESC LIMIT 1";
+$query = @mysql_query($sql);
+$latest_video_id="";
+
+while ($result                  = mysql_fetch_array($query))
+{
+       $latest_video_id        = $result['video_id'];
+}
+
+
+$thumb_file             ="$base_url/uploads/player_thumbs/".$latest_video_id.".jpg";
+$video_play             ="$base_url/uploads/".$latest_video_id.".mp4";
+
 $template		= "themes/$user_theme/templates/main_1.htm";
 $inner_template1 	= "themes/$user_theme/templates/inner_index.htm";
 $TBS 			= new clsTinyButStrong;
