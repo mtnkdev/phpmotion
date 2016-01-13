@@ -159,6 +159,7 @@ while($result = @mysql_fetch_array($query)) {
     	$duration_time = sprintf("%02d:%02d:%02d",$duration_hours,$duration_mins,$duration_secs);
     	$duration = $duration_time;
 
+        
     	//___middle of movie___________
     	$thumb_pos = (int)$vid_duration / 2;
 
@@ -168,6 +169,9 @@ while($result = @mysql_fetch_array($query)) {
    	$ffmpeg_secs = floor($thumb_pos % 60);
     	$ffmpeg_time = sprintf("%02d:%02d:%02d",$ffmpeg_hours,$ffmpeg_mins,$ffmpeg_secs);
     	$thumb_position = $ffmpeg_time;
+       
+        // taking the thumb halfway through is inconsistent, so let's take on from the start (5 seconds in) 
+	$thumb_pos = "00:00:05"
 
 	//______________________________________________________________________________________________
     	//_____________________________CREATE THUMBNAIL IMAGE___________________________________________
