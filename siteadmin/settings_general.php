@@ -97,6 +97,7 @@ $sql = "UPDATE general_settings SET
 
 site_name ='$site_name',
 site_base_url ='$site_base_url',
+ldap_domain = '$ldap_domain',
 date_format ='$date_format',
 path_to_ffmpeg ='$path_to_ffmpeg',
 path_to_flvtool2 ='$path_to_flvtool2',
