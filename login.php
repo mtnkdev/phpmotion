@@ -72,8 +72,37 @@ $cookie_time 	= mysql_real_escape_string($_POST['cookie_time']);
 $referer_url	= mysql_real_escape_string($_POST['referer_url']);
 
 $config_redirect	= 'yes';
+$validated              = 'no';
+$user_role              = 'none';
 
 if ($cookie_time == '-1' ) $cookie_time = 43200;
+
+// hook in the ldap integration here
+if ($config['ldap_domain'] != '') {
+	// authenticate/bind to ldap
+       	$link = ldap_connect($config['ldap_domain']);
+       	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, 3);
+       	if (ldap_bind($link, $_POST['user_name_login'].$config['ldap_domain'], $_POST['password_login'])) {
+		$validated = 'ldap';
+		// make sure the user exists in the local database
+	}
+}
+
+
+// fallback to checking local users 
+// if ldap_domain is not configured OR (ldap binding failed AND the user is an administrator)
+if ($validated == 'no') {
+
+	// ldap is configured but the user is an admin (check local password	
+	// OR
+	// ldap is not configured
+	if ( ($config['ldap_domain'] != '' && $user_role == "Administrator" ) ||
+             ($config['ldap_domain'] == '') ) {
+             echo "not validated yes"		;
+	}
+
+}
+
 
 // case insensitive login and registration
 $user_name_login			= strtolower($user_name_login);
