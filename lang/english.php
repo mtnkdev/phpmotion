@@ -292,6 +292,7 @@ $lang_latest_news                         = 'Latest News';
 $lang_latest_videos                       = 'Latest Videos';
 $lang_latest_video                        = 'Latest Video';
 $lang_language                            = 'Language';
+$lang_ldap_configured                     = 'LDAP Integration is enabled';
 $lang_leave_comment                 	= 'Leave a Comment';
 $lang_left_ad                             = 'Left ad';
 $lang_length                              = 'Length';

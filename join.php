@@ -256,16 +256,22 @@ if ($procede == false && $form_submitted == 'yes') {
 // START => load page with form
 if ( !isset($form_submitted) || ($form_submitted == '') ) {
 
-	$show_signup 	= 1;
-	$template 		= "themes/$user_theme/templates/main_1.htm";
-      $inner_template1 	= "themes/$user_theme/templates/inner_signup_form.htm";
-      $TBS 			= new clsTinyButStrong;
-      $TBS->NoErr 	= true;
+      	if ($config['ldap_domain'] == '') {
+	      	$show_signup 	= 1;
+        } else {
+		// LDAP is configured, tell te user there is no need to register
+	      	$show_signup 	= 0;
+	}
 
-      $TBS->LoadTemplate("$template");
-      $TBS->Render 	= TBS_OUTPUT;
-      $TBS->Show();
-      die();
+	$template 		= "themes/$user_theme/templates/main_1.htm";
+      	$inner_template1 	= "themes/$user_theme/templates/inner_signup_form.htm";
+      	$TBS 			= new clsTinyButStrong;
+      	$TBS->NoErr 	= true;
+
+      	$TBS->LoadTemplate("$template");
+     	$TBS->Render 	= TBS_OUTPUT;
+  	$TBS->Show();
+      	die();  
 }
 
 

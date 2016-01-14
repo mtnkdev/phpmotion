@@ -7,14 +7,31 @@
       <li>[var.lang_connect_with_friends]</li>
       <li>[var.lang_make_friends]</li>
       <li>[var.lang_upload_share]</li>
-      <li>[var.lang_create_your_blog]</li>
       <li>[var.lang_customize_your_profile]</li>
       <li>[var.lang_and_more]!</li>
     </ul>
     <p>[var.lang_so_what]? &nbsp; <a href="[var.base_url]/join.php">[var.lang_register_now]</a> [var.lang_begin_fun]!</p>
     <br />
+    <!--[onload;block=div;when [var.show_signup]=1;comm]-->
+  </div>
+
+  <div class="signup-left">
+    <h1>[var.lang_ldap_configured]</h1>
+    <p>[var.lang_as_a_member]...</p>
+    <ul>
+      <li>[var.lang_connect_with_friends]</li>
+      <li>[var.lang_make_friends]</li>
+      <li>[var.lang_upload_share]</li>
+      <li>[var.lang_customize_your_profile]</li>
+      <li>[var.lang_and_more]!</li>
+    </ul>
+    <p>[var.lang_so_what]? &nbsp; <a href="[var.base_url]/login.php">[var.lang_login_now]</a> [var.lang_begin_fun]!</p>
+    <br />
+    <!--[onload;block=div;when [var.show_signup]=0;comm]-->
   </div>
 </div>
+
+
 <!--End Left Column-->
 
 <!--Begin Right Column-->
@@ -442,6 +459,7 @@
             <li><input type="hidden" name="referer_url" value="[var.referer]"></li>
           </ul>
         </form>
+        <div>
         <form name="forgot" action="resendlogins.php" method="post" class="FormGeneric">
           <ul>
             <li><div class="signup-lable-new">[var.lang_send_new_pass]</div></li>
@@ -451,6 +469,8 @@
             <li><input type="hidden" name="submitted" value="yes" /></li>
           </ul>
         </form>
+        <!--[onload;block=div;when [var.show_signup]=1;comm]-->
+        </div>
       </div>
       <!--[onload;block=div;when [var.show_login]=1;comm]-->
     </div>
