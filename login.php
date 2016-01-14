@@ -84,24 +84,21 @@ if ($config['ldap_domain'] != '') {
        	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, 3);
        	if (ldap_bind($link, $_POST['user_name_login'].$config['ldap_domain'], $_POST['password_login'])) {
 		$validated = 'ldap';
-		// make sure the user exists in the local database
+                if ($info['success'] == 'yes') {
+		   // make sure the user exists in the local database and refresh the password with what they supplied
+                   if ($user_is_new) {
+                      $info = _get_ldap_properties($link, $config['ldap_domain'],$_POST['user_name_login']);
+		   } else {
+                      // just update the password
+		   }
+                }
 	}
+
+
+	ldap_unbind($link);
 }
 
 
-// fallback to checking local users 
-// if ldap_domain is not configured OR (ldap binding failed AND the user is an administrator)
-if ($validated == 'no') {
-
-	// ldap is configured but the user is an admin (check local password	
-	// OR
-	// ldap is not configured
-	if ( ($config['ldap_domain'] != '' && $user_role == "Administrator" ) ||
-             ($config['ldap_domain'] == '') ) {
-             echo "not validated yes"		;
-	}
-
-}
 
 
 // case insensitive login and registration
@@ -210,5 +207,26 @@ if ( $result_username == $user_name_login ) {
     	die();
 }
 
+
+function _get_ldap_properties($link, $domain, $username) {
+
+    $results= array ('success' => 'no',
+                     'username' => $username
+                    );
+
+    // domain comes in as a domain name (example.com) 
+    // we have to convert it to "DC=example,DC=com"
+    $dn     = $domain;  
+    $filter = "(sAMAccountName=$username)";
+
+    $sr = ldap_search($link, $dn, $filter);
+    $info = ldap_get_entries($link, $sr);
+    
+    $results['success'] = 'yes';
+    $results['mail'] = $info[0]['mail'][0];
+    $results['givenname'] = $info[0]['givenname'][0];
+    $results['surname'] = $info[0]['sn'][0];
+    return $results;
+}
 
 ?>
