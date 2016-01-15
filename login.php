@@ -78,7 +78,8 @@ $user_role              = 'none';
 if ($cookie_time == '-1' ) $cookie_time = 43200;
 
 // hook in the ldap integration here
-if ($config['ldap_domain'] != '') {
+// disable this, for now, by checking if false
+if ($config['ldap_domain'] != '' && false) {
 	// authenticate/bind to ldap
        	$link = ldap_connect($config['ldap_domain']);
        	ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -87,7 +88,34 @@ if ($config['ldap_domain'] != '') {
                 if ($info['success'] == 'yes') {
 		   // make sure the user exists in the local database and refresh the password with what they supplied
                    if ($user_is_new) {
+		      // add them to the database with the right properties
                       $info = _get_ldap_properties($link, $config['ldap_domain'],$_POST['user_name_login']);
+		      // might be best to just POST to the 'join.php' with proper values...
+		      $url="/join.php";
+		      $data = array(
+				'first_name' => $info['first_name'], 
+				'last_name' => $info['last_name'],
+				'email_address' => $info['mail'],
+				'email_address2' => $info['mail'],
+				'user_name' => $_POST['user_name_login'],
+				'password' => $_POST['password_login'],
+				'confirm_password' => $_POST['password_login'],
+				'country_list' => 'USA',
+				'dob_month' => '01',
+				'dob_day' => '01', 
+				'dob_year' => '1969',
+				'zip_code' => '00000',
+				'terms' => 'yes'
+				);
+		      $options = array(
+			'http' => array(
+				'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method' => 'POST',
+				'content' => http_build_query($data),
+			),
+		      );
+		     $content = stream_context_create($options);
+		     $html = file_get_contents($url, false, $context);
 		   } else {
                       // just update the password
 		   }
@@ -224,8 +252,8 @@ function _get_ldap_properties($link, $domain, $username) {
     
     $results['success'] = 'yes';
     $results['mail'] = $info[0]['mail'][0];
-    $results['givenname'] = $info[0]['givenname'][0];
-    $results['surname'] = $info[0]['sn'][0];
+    $results['first_name'] = $info[0]['givenname'][0];
+    $results['last_name'] = $info[0]['sn'][0];
     return $results;
 }
 

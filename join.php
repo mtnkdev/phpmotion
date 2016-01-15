@@ -278,7 +278,7 @@ if ( !isset($form_submitted) || ($form_submitted == '') ) {
 // if no errors register user and load welcome page
 if ($procede == true) {
 
-	if ( strtolower($_POST['captext']) != strtolower($_SESSION['security_code']) ) {
+	if ( (strtolower($_POST['captext']) != strtolower($_SESSION['security_code'])) && $config['ldap_domain'] == '' ) {
 
 		// POSSIBLE BOT ATTACK => TODO: ADD SECURITY LOG ACTIONS ETC....
 		// LOADING TEMPLATE IS MAYBE USELESS SINCE THIS WOULD COME FROM A SCRIPT POST
